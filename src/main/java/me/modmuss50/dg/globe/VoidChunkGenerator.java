@@ -9,7 +9,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.structure.StructureSet;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.ChunkRegion;
@@ -24,17 +23,19 @@ import net.minecraft.world.gen.GenerationStep.Carver;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.chunk.Blender;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
+import net.minecraft.world.gen.chunk.StructuresConfig;
 import net.minecraft.world.gen.chunk.VerticalBlockSample;
 
 public class VoidChunkGenerator extends ChunkGenerator {
 
-	public static final Codec<VoidChunkGenerator> CODEC = RecordCodecBuilder.create(instance ->
-		VoidChunkGenerator.method_41042(instance)
-		.and(BiomeSource.CODEC.fieldOf("biome_source").forGetter((generator) -> generator.biomeSource))
+	public static final Codec<VoidChunkGenerator> CODEC = RecordCodecBuilder.create((instance) ->
+			instance.group(
+							BiomeSource.CODEC.fieldOf("biome_source").forGetter((generator) -> generator.biomeSource)
+					)
 		.apply(instance, instance.stable(VoidChunkGenerator::new)));
 
-	public VoidChunkGenerator(Registry<StructureSet> registry, BiomeSource biomeSource) {
-		super(registry, Optional.empty(), biomeSource);
+	public VoidChunkGenerator(BiomeSource biomeSource) {
+		super(biomeSource, new StructuresConfig(false));
 	}
 
 	@Override
@@ -49,7 +50,8 @@ public class VoidChunkGenerator extends ChunkGenerator {
 
 	@Override
 	public MultiNoiseSampler getMultiNoiseSampler() {
-		return MultiNoiseUtil.method_40443();
+		// TODO
+		return null;
 	}
 
 	@Override
@@ -92,9 +94,5 @@ public class VoidChunkGenerator extends ChunkGenerator {
 	@Override
 	public VerticalBlockSample getColumnSample(int var1, int var2, HeightLimitView var3) {
 		return new VerticalBlockSample(0, new BlockState[0]);
-	}
-
-	@Override
-	public void getDebugHudText(List<String> var1, BlockPos var2) {
 	}
 }
