@@ -7,7 +7,7 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import me.modmuss50.dg.DimensionGlobe;
 import me.modmuss50.dg.globe.GlobeBlockItem;
-import net.fabricmc.fabric.api.event.client.ClientTickCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.c2s.play.CustomPayloadC2SPacket;
@@ -48,7 +48,7 @@ public class GlobeSectionManagerClient {
 	}
 
 	public static void register() {
-		ClientTickCallback.EVENT.register(minecraftClient -> {
+		ClientTickEvents.END_CLIENT_TICK.register(minecraftClient -> {
 			if (minecraftClient.world == null) {
 				//Ensure the state is not transfered across worlds
 				updateQueue.clear();

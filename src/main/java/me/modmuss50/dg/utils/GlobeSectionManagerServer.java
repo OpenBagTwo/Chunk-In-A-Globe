@@ -8,7 +8,8 @@ import it.unimi.dsi.fastutil.ints.IntOpenHashSet;
 import it.unimi.dsi.fastutil.ints.IntSet;
 import me.modmuss50.dg.DimensionGlobe;
 import me.modmuss50.dg.globe.GlobeBlockEntity;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -75,7 +76,7 @@ public class GlobeSectionManagerServer {
 	}
 
 	public static void register() {
-		ServerSidePacketRegistry.INSTANCE.register(new Identifier(DimensionGlobe.MOD_ID, "update_request"), (packetContext, packetByteBuf) -> {
+		ServerPlayNetworking.register(new Identifier(DimensionGlobe.MOD_ID, "update_request"), (packetContext, packetByteBuf) -> {
 			final int amount = packetByteBuf.readInt();
 			IntSet updateQueue = new IntOpenHashSet();
 			for (int i = 0; i < amount; i++) {

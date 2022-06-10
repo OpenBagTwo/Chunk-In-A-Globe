@@ -10,7 +10,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 
 import net.minecraft.util.Identifier;
@@ -49,7 +49,7 @@ public class GlobeBlockItem extends BlockItem {
 	public ActionResult place(ItemPlacementContext context) {
 		if (context.getPlayer().world.getRegistryKey().equals(DimensionGlobe.globeDimension)) {
 			if (!context.getPlayer().world.isClient) {
-				context.getPlayer().sendMessage(new TranslatableText("globedimension.block.error"), false);
+				context.getPlayer().sendMessage(Text.translatable("globedimension.block.error"), false);
 			}
 			return ActionResult.FAIL;
 		}

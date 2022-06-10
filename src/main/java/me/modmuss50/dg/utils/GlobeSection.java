@@ -10,6 +10,7 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.network.encryption.PlayerPublicKey;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.util.Identifier;
@@ -109,10 +110,11 @@ public class GlobeSection {
 
 			if (entityType.toString().equals("minecraft:player")) {
 				GameProfile gameProfile = MinecraftClient.getInstance().getSession().getProfile();
+				PlayerPublicKey playerPublicKey = MinecraftClient.getInstance().player.publicKey;
 				if (entityData.contains("game_profile")) {
 					gameProfile = NbtHelper.toGameProfile(entityData.getCompound("game_profile"));
 				}
-				OtherClientPlayerEntity entity = new OtherClientPlayerEntity((ClientWorld) world, gameProfile);
+				OtherClientPlayerEntity entity = new OtherClientPlayerEntity((ClientWorld) world, gameProfile, playerPublicKey);
 				entity.readNbt(entityData.getCompound("entity_data"));
 
 				entities.add(entity);
